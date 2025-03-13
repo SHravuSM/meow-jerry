@@ -1,6 +1,7 @@
 
 import { useEffect, useRef } from "react";
 import { useTypingTest } from "@/hooks/useTypingTest";
+import { useTheme } from "@/hooks/useTheme";
 import Stats from "./Stats";
 import { cn } from "@/lib/utils";
 import KeyboardKey from "./KeyboardKey";
@@ -26,6 +27,8 @@ const TypingTest = () => {
     restartTest,
     setOptions
   } = useTypingTest();
+
+  const { font, setFont, theme, setTheme } = useTheme();
 
   // Focus container on mount and when test restarts
   useEffect(() => {
@@ -173,7 +176,7 @@ const TypingTest = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className={cn("min-h-screen flex flex-col", `font-${font}`)}>
       <Header 
         testMode={options.mode}
         onModeChange={(mode) => setOptions({ mode })}
@@ -181,6 +184,10 @@ const TypingTest = () => {
         onDurationChange={(duration) => setOptions({ duration })}
         wordCount={options.wordCount}
         onWordCountChange={(wordCount) => setOptions({ wordCount })}
+        font={font}
+        onFontChange={setFont}
+        theme={theme}
+        onThemeChange={setTheme}
       />
       
       <div 
@@ -214,7 +221,9 @@ const TypingTest = () => {
             <div 
               ref={wordsRef}
               className={cn(
-                "relative font-mono text-lg leading-8 max-h-[150px] overflow-y-auto p-4 mb-8 rounded-lg bg-white/50 backdrop-blur-sm border border-secondary shadow-sm animate-slide-up",
+                "relative text-lg leading-8 max-h-[150px] overflow-y-auto p-4 mb-8 rounded-lg bg-white/50 backdrop-blur-sm border border-secondary shadow-sm animate-slide-up",
+                theme === "dark" && "bg-black/10",
+                theme === "sepia" && "bg-orange-50/50",
                 finished && "opacity-50"
               )}
               style={{ overscrollBehavior: "contain" }}
@@ -230,7 +239,25 @@ const TypingTest = () => {
             </div>
           </div>
           
-          {renderKeyboard()}
+          <div className="mt-6 opacity-80">
+            {keyboardRows.map((row, index) => (
+              <div key={index} className="key-row justify-center">
+                {row.map((key) => (
+                  <KeyboardKey
+                    key={key}
+                    active={activeKeys.has(key)}
+                  >
+                    {key}
+                  </KeyboardKey>
+                ))}
+              </div>
+            ))}
+            <div className="key-row justify-center">
+              <KeyboardKey width={6} active={activeKeys.has(" ")}>
+                space
+              </KeyboardKey>
+            </div>
+          </div>
         </div>
       </div>
     </div>

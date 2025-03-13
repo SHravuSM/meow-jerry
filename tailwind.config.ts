@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -22,6 +21,8 @@ export default {
 			fontFamily: {
 				sans: ['Inter', 'system-ui', 'sans-serif'],
 				mono: ['JetBrains Mono', 'monospace'],
+				'roboto-mono': ['Roboto Mono', 'monospace'],
+				'space-mono': ['Space Mono', 'monospace'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -67,8 +68,8 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				correct: "#3CCF4E",
-				error: "#FF5A5F",
+				correct: "hsl(var(--correct))",
+				error: "hsl(var(--error))",
 			},
 			keyframes: {
 				'accordion-down': {
@@ -160,4 +161,3 @@ export default {
 	},
 	plugins: [require("tailwindcss-animate")],
 } satisfies Config;
-

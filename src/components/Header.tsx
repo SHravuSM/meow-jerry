@@ -1,6 +1,7 @@
 
 import { cn } from "@/lib/utils";
 import { TestMode, TestDuration, TestWordCount } from "@/utils/wordLists";
+import ThemeSelector, { FontStyle, Theme } from "./ThemeSelector";
 
 interface HeaderProps {
   testMode: TestMode;
@@ -9,6 +10,10 @@ interface HeaderProps {
   onDurationChange: (duration: TestDuration) => void;
   wordCount: TestWordCount;
   onWordCountChange: (count: TestWordCount) => void;
+  font: FontStyle;
+  onFontChange: (font: FontStyle) => void;
+  theme: Theme;
+  onThemeChange: (theme: Theme) => void;
   className?: string;
 }
 
@@ -19,21 +24,37 @@ const Header = ({
   onDurationChange,
   wordCount,
   onWordCountChange,
+  font,
+  onFontChange,
+  theme,
+  onThemeChange,
   className
 }: HeaderProps) => {
   return (
     <header className={cn("w-full px-8 py-6 animate-slide-down", className)}>
       <div className="max-w-3xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-wrap items-center justify-between mb-6 gap-4">
           <div className="flex items-baseline gap-1">
             <h1 className="text-2xl font-semibold tracking-tight text-primary">type</h1>
             <span className="text-xl font-normal text-foreground/80">wild</span>
           </div>
           
+          <ThemeSelector 
+            currentFont={font}
+            onFontChange={onFontChange}
+            currentTheme={theme}
+            onThemeChange={onThemeChange}
+          />
+          
           <div className="flex items-center gap-1">
-            <button className="px-3 py-1 text-sm bg-secondary/80 rounded-md font-medium text-foreground/80 hover:bg-secondary transition-colors">
+            <a 
+              href="https://github.com/yourusername/typewild" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-3 py-1 text-sm bg-secondary/80 rounded-md font-medium text-foreground/80 hover:bg-secondary transition-colors"
+            >
               github
-            </button>
+            </a>
           </div>
         </div>
         
