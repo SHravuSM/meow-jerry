@@ -6,7 +6,7 @@ import KeyboardKey from "./KeyboardKey";
 import Header from "./Header";
 
 const TypingTest = () => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const wordsRef = useRef<HTMLDivElement>(null);
   const {
     words,
@@ -26,10 +26,10 @@ const TypingTest = () => {
     setOptions
   } = useTypingTest();
 
-  // Focus input on mount and when test restarts
+  // Focus container on mount and when test restarts
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
+    if (containerRef.current) {
+      containerRef.current.focus();
     }
   }, [finished]);
 
@@ -51,6 +51,35 @@ const TypingTest = () => {
     }
   }, [currentWordIndex, started]);
 
+  // Handle keyboard input without a visible input element
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (finished) return;
+    
+    // Only process printable characters, space, and backspace
+    if (
+      (e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) || 
+      e.key === " " || 
+      e.key === "Backspace"
+    ) {
+      // Create a synthetic input event
+      let newValue = input;
+      
+      if (e.key === "Backspace") {
+        newValue = input.slice(0, -1);
+      } else {
+        newValue = input + e.key;
+      }
+      
+      // Simulate input change
+      const syntheticEvent = {
+        target: { value: newValue }
+      } as React.ChangeEvent<HTMLInputElement>;
+      
+      handleInputChange(syntheticEvent);
+      e.preventDefault();
+    }
+  };
+
   const renderWord = (word: string, index: number) => {
     const isCurrentWord = index === currentWordIndex;
     const isErrorWord = errors.includes(index);
@@ -66,27 +95,36 @@ const TypingTest = () => {
           isCompletedWord && !isErrorWord && "text-primary/80"
         )}
       >
-        {word.split("").map((char, charIndex) => {
-          const isCurrentChar = isCurrentWord && charIndex === currentCharIndex;
-          const isTypedChar = isCurrentWord && charIndex < input.length;
-          const isCorrectChar = isCurrentWord && charIndex < input.length && char === input[charIndex];
-          const isIncorrectChar = isCurrentWord && charIndex < input.length && char !== input[charIndex];
-          
-          return (
-            <span
-              key={charIndex}
-              className={cn(
-                "char",
-                isCorrectChar && "correct",
-                isIncorrectChar && "incorrect",
-                isCurrentChar && "current"
-              )}
-            >
+        {isCurrentWord ? (
+          // Current word - show characters with input overlay
+          word.split("").map((char, charIndex) => {
+            const isCurrentChar = charIndex === currentCharIndex;
+            const isTypedChar = charIndex < input.length;
+            const isCorrectChar = charIndex < input.length && char === input[charIndex];
+            const isIncorrectChar = charIndex < input.length && char !== input[charIndex];
+            
+            return (
+              <span
+                key={charIndex}
+                className={cn(
+                  "char",
+                  isCorrectChar && "correct",
+                  isIncorrectChar && "incorrect"
+                )}
+              >
+                {isTypedChar ? input[charIndex] : char}
+                {isCurrentChar && <span className="caret" />}
+              </span>
+            );
+          })
+        ) : (
+          // Not current word - show original characters
+          word.split("").map((char, charIndex) => (
+            <span key={charIndex} className="char">
               {char}
-              {isCurrentChar && <span className="caret" />}
             </span>
-          );
-        })}
+          ))
+        )}
         {" "}
       </div>
     );
@@ -136,7 +174,7 @@ const TypingTest = () => {
       
       <div 
         className="flex-1 flex flex-col items-center justify-center px-4 py-8"
-        onClick={() => inputRef.current?.focus()}
+        onClick={() => containerRef.current?.focus()}
       >
         <div className="w-full max-w-3xl">
           <Stats 
@@ -150,32 +188,35 @@ const TypingTest = () => {
           />
           
           <div 
-            ref={wordsRef}
+            ref={containerRef}
+            tabIndex={0}
+            onKeyDown={(e) => {
+              handleKeyDown(e as any);
+              handleKeyPress(e);
+            }}
+            onKeyUp={(e) => handleKeyUp(e as any)}
             className={cn(
-              "relative font-mono text-lg leading-8 max-h-[150px] overflow-y-auto p-4 mb-8 rounded-lg bg-white/50 backdrop-blur-sm border border-secondary shadow-sm animate-slide-up",
-              finished && "opacity-50"
+              "relative focus:outline-none focus:ring-2 focus:ring-primary/30 rounded-lg",
+              !finished && "cursor-text"
             )}
-            style={{ overscrollBehavior: "contain" }}
           >
-            {words.slice(0, options.mode === "words" ? options.wordCount : undefined).map(renderWord)}
-          </div>
-          
-          <div className="relative animate-slide-up">
-            <input
-              ref={inputRef}
-              type="text"
-              value={input}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
-              onKeyUp={handleKeyUp}
-              disabled={finished}
-              className="w-full px-4 py-3 rounded-lg bg-white/80 backdrop-blur-sm border border-secondary shadow-sm font-mono text-lg focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/30 placeholder-muted-foreground/50"
-              placeholder={finished ? "Test completed!" : "Start typing..."}
-              autoComplete="off"
-              autoCapitalize="off"
-              autoCorrect="off"
-              spellCheck="false"
-            />
+            <div 
+              ref={wordsRef}
+              className={cn(
+                "relative font-mono text-lg leading-8 max-h-[150px] overflow-y-auto p-4 mb-8 rounded-lg bg-white/50 backdrop-blur-sm border border-secondary shadow-sm animate-slide-up",
+                finished && "opacity-50"
+              )}
+              style={{ overscrollBehavior: "contain" }}
+            >
+              {words.slice(0, options.mode === "words" ? options.wordCount : undefined).map(renderWord)}
+              
+              {/* Typing indicator when no text has been entered */}
+              {!started && !finished && (
+                <div className="absolute bottom-4 left-4 text-muted-foreground/70 pointer-events-none animate-pulse-light">
+                  Click here and start typing...
+                </div>
+              )}
+            </div>
           </div>
           
           {renderKeyboard()}

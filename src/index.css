@@ -78,7 +78,7 @@
   }
 
   .char {
-    @apply mx-px transition-colors duration-75 relative;
+    @apply mx-px transition-colors duration-75 relative inline-block;
   }
 
   .char.correct {
@@ -86,7 +86,7 @@
   }
 
   .char.incorrect {
-    @apply text-error;
+    @apply text-error bg-error/10;
   }
 
   .char.current {
