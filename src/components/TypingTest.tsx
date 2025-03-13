@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from "react";
 import { useTypingTest } from "@/hooks/useTypingTest";
 import Stats from "./Stats";
@@ -109,11 +110,21 @@ const TypingTest = () => {
                 className={cn(
                   "char",
                   isCorrectChar && "correct",
-                  isIncorrectChar && "incorrect"
+                  isIncorrectChar && "incorrect",
+                  isCurrentChar && "current"
                 )}
               >
                 {isTypedChar ? input[charIndex] : char}
-                {isCurrentChar && <span className="caret" />}
+                {isCurrentChar && (
+                  <span 
+                    className="caret" 
+                    style={{
+                      left: isTypedChar ? '100%' : '0',
+                      transform: `translateX(${isTypedChar ? '0' : '0'})`,
+                      transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), left 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
+                    }}
+                  />
+                )}
               </span>
             );
           })
@@ -212,7 +223,7 @@ const TypingTest = () => {
               
               {/* Typing indicator when no text has been entered */}
               {!started && !finished && (
-                <div className="absolute bottom-4 left-4 text-muted-foreground/70 pointer-events-none animate-pulse-light">
+                <div className="absolute bottom-4 left-4 text-muted-foreground/70 pointer-events-none animate-pulse-smooth">
                   Click here and start typing...
                 </div>
               )}

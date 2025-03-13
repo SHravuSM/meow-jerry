@@ -16,7 +16,10 @@ const KeyboardKey = ({ children, width = 1, active = false, className }: Keyboar
         active && "active", 
         className
       )}
-      style={{ width: `${width * 2}rem` }}
+      style={{ 
+        width: `${width * 2}rem`,
+        transition: "all 0.18s cubic-bezier(0.4, 0, 0.2, 1)"
+      }}
     >
       {children}
     </div>

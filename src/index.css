@@ -70,23 +70,23 @@
   }
 
   .word {
-    @apply px-0.5 transition-colors duration-75;
+    @apply px-0.5 transition-colors duration-200 ease-in-out;
   }
 
   .caret {
-    @apply absolute w-0.5 h-6 bg-primary rounded-sm transition-all duration-75 animate-blink;
+    @apply absolute w-0.5 h-6 bg-primary rounded-sm transition-all duration-200 ease-in-out animate-caret-blink;
   }
 
   .char {
-    @apply mx-px transition-colors duration-75 relative inline-block;
+    @apply mx-px transition-colors duration-150 ease-in-out relative inline-block;
   }
 
   .char.correct {
-    @apply text-correct;
+    @apply text-correct transition-colors duration-150 ease-in-out;
   }
 
   .char.incorrect {
-    @apply text-error bg-error/10;
+    @apply text-error bg-error/10 transition-colors duration-150 ease-in-out;
   }
 
   .char.current {
@@ -95,18 +95,19 @@
 
   .char.current::before {
     content: '';
-    @apply absolute bottom-0 left-0 w-full h-px bg-primary animate-pulse-light;
+    @apply absolute bottom-0 left-0 w-full h-px bg-primary animate-pulse-smooth;
   }
 
   .key {
-    @apply flex items-center justify-center h-10 rounded-md bg-secondary border-b-2 border-secondary/50 shadow-sm transition-all duration-75 text-foreground/80 text-sm font-medium;
+    @apply flex items-center justify-center h-10 rounded-md bg-secondary border-b-2 border-secondary/50 shadow-sm transition-all duration-150 ease-in-out text-foreground/80 text-sm font-medium;
   }
 
   .key.active {
-    @apply bg-primary/10 border-primary/30 animate-key-press text-primary;
+    @apply bg-primary/10 border-primary/30 animate-key-press-smooth text-primary;
   }
 
   .key-row {
     @apply flex space-x-1 my-1;
   }
 }
+
