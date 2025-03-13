@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from "react";
 import { useTypingTest } from "@/hooks/useTypingTest";
 import { useTheme } from "@/hooks/useTheme";
@@ -84,14 +83,25 @@ const TypingTest = () => {
     }
   };
 
+  // Determine which words to show (current word and next few)
+  const visibleWordCount = 15; // Show current word and next 14 words
+  const startWordIndex = Math.max(0, currentWordIndex);
+  const endWordIndex = Math.min(
+    startWordIndex + visibleWordCount,
+    options.mode === "words" ? options.wordCount : words.length
+  );
+  
+  const visibleWords = words.slice(startWordIndex, endWordIndex);
+
   const renderWord = (word: string, index: number) => {
-    const isCurrentWord = index === currentWordIndex;
-    const isErrorWord = errors.includes(index);
-    const isCompletedWord = index < currentWordIndex;
+    const actualIndex = index + startWordIndex;
+    const isCurrentWord = actualIndex === currentWordIndex;
+    const isErrorWord = errors.includes(actualIndex);
+    const isCompletedWord = actualIndex < currentWordIndex;
     
     return (
       <div 
-        key={index}
+        key={actualIndex}
         className={cn(
           "word inline-block",
           isCurrentWord && "bg-secondary/50 rounded",
@@ -124,7 +134,7 @@ const TypingTest = () => {
                     style={{
                       left: isTypedChar ? '100%' : '0',
                       transform: `translateX(${isTypedChar ? '0' : '0'})`,
-                      transition: 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), left 0.2s cubic-bezier(0.4, 0, 0.2, 1)'
+                      transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), left 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
                     }}
                   />
                 )}
@@ -150,30 +160,6 @@ const TypingTest = () => {
     ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
     ["z", "x", "c", "v", "b", "n", "m"]
   ];
-
-  const renderKeyboard = () => {
-    return (
-      <div className="mt-6 opacity-80">
-        {keyboardRows.map((row, index) => (
-          <div key={index} className="key-row justify-center">
-            {row.map((key) => (
-              <KeyboardKey
-                key={key}
-                active={activeKeys.has(key)}
-              >
-                {key}
-              </KeyboardKey>
-            ))}
-          </div>
-        ))}
-        <div className="key-row justify-center">
-          <KeyboardKey width={6} active={activeKeys.has(" ")}>
-            space
-          </KeyboardKey>
-        </div>
-      </div>
-    );
-  };
 
   return (
     <div className={cn("min-h-screen flex flex-col", `font-${font}`)}>
@@ -228,7 +214,7 @@ const TypingTest = () => {
               )}
               style={{ overscrollBehavior: "contain" }}
             >
-              {words.slice(0, options.mode === "words" ? options.wordCount : undefined).map(renderWord)}
+              {visibleWords.map(renderWord)}
               
               {/* Typing indicator when no text has been entered */}
               {!started && !finished && (
