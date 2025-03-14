@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { FontStyle, Theme } from '@/components/ThemeSelector';
 
@@ -17,14 +16,32 @@ export function useTheme() {
   // Update localStorage and document class when font changes
   useEffect(() => {
     localStorage.setItem('typewild-font', font);
-    document.documentElement.classList.remove('font-inter', 'font-jetbrains-mono', 'font-roboto-mono', 'font-space-mono');
+    document.documentElement.classList.remove(
+      'font-inter', 
+      'font-jetbrains-mono', 
+      'font-roboto-mono', 
+      'font-space-mono',
+      'font-ubuntu-mono',
+      'font-fira-code',
+      'font-source-code-pro',
+      'font-comic-sans'
+    );
     document.documentElement.classList.add(`font-${font}`);
   }, [font]);
 
   // Update localStorage and document class when theme changes
   useEffect(() => {
     localStorage.setItem('typewild-theme', theme);
-    document.documentElement.classList.remove('theme-light', 'theme-dark', 'theme-sepia');
+    document.documentElement.classList.remove(
+      'theme-light', 
+      'theme-dark', 
+      'theme-sepia',
+      'theme-nord',
+      'theme-dracula',
+      'theme-solarized',
+      'theme-monokai',
+      'theme-github'
+    );
     document.documentElement.classList.add(`theme-${theme}`);
   }, [theme]);
 

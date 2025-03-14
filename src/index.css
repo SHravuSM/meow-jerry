@@ -2,6 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -113,6 +116,176 @@
     --error: 0 72% 51%;
   }
 
+  /* Nord theme */
+  .theme-nord {
+    --background: 220 16% 22%;
+    --foreground: 218 27% 92%;
+
+    --card: 220 16% 28%;
+    --card-foreground: 218 27% 92%;
+
+    --popover: 220 16% 28%;
+    --popover-foreground: 218 27% 92%;
+
+    --primary: 210 34% 63%;
+    --primary-foreground: 220 16% 22%;
+
+    --secondary: 220 16% 36%;
+    --secondary-foreground: 218 27% 92%;
+
+    --muted: 220 16% 36%;
+    --muted-foreground: 218 27% 80%;
+
+    --accent: 220 16% 36%;
+    --accent-foreground: 218 27% 92%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 218 27% 92%;
+
+    --border: 220 16% 36%;
+    --input: 220 16% 36%;
+    --ring: 210 34% 63%;
+
+    --correct: 144 42% 56%;
+    --error: 354 42% 56%;
+  }
+
+  /* Dracula theme */
+  .theme-dracula {
+    --background: 231 15% 18%;
+    --foreground: 60 30% 96%;
+
+    --card: 231 15% 24%;
+    --card-foreground: 60 30% 96%;
+
+    --popover: 231 15% 24%;
+    --popover-foreground: 60 30% 96%;
+
+    --primary: 326 100% 74%;
+    --primary-foreground: 231 15% 18%;
+
+    --secondary: 231 15% 28%;
+    --secondary-foreground: 60 30% 96%;
+
+    --muted: 231 15% 28%;
+    --muted-foreground: 60 30% 85%;
+
+    --accent: 231 15% 28%;
+    --accent-foreground: 60 30% 96%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 30% 96%;
+
+    --border: 231 15% 28%;
+    --input: 231 15% 28%;
+    --ring: 326 100% 74%;
+
+    --correct: 135 94% 65%;
+    --error: 0 100% 67%;
+  }
+
+  /* Solarized theme */
+  .theme-solarized {
+    --background: 44 87% 94%;
+    --foreground: 196 15% 30%;
+
+    --card: 44 87% 99%;
+    --card-foreground: 196 15% 30%;
+
+    --popover: 44 87% 99%;
+    --popover-foreground: 196 15% 30%;
+
+    --primary: 175 74% 37%;
+    --primary-foreground: 44 87% 94%;
+
+    --secondary: 44 50% 88%;
+    --secondary-foreground: 196 15% 30%;
+
+    --muted: 44 50% 88%;
+    --muted-foreground: 196 15% 50%;
+
+    --accent: 44 50% 88%;
+    --accent-foreground: 196 15% 30%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 44 87% 94%;
+
+    --border: 44 50% 88%;
+    --input: 44 50% 88%;
+    --ring: 175 74% 37%;
+
+    --correct: 145 63% 42%;
+    --error: 1 71% 52%;
+  }
+
+  /* Monokai theme */
+  .theme-monokai {
+    --background: 60 6% 14%;
+    --foreground: 60 30% 96%;
+
+    --card: 60 6% 20%;
+    --card-foreground: 60 30% 96%;
+
+    --popover: 60 6% 20%;
+    --popover-foreground: 60 30% 96%;
+
+    --primary: 65 92% 76%;
+    --primary-foreground: 60 6% 14%;
+
+    --secondary: 60 6% 28%;
+    --secondary-foreground: 60 30% 96%;
+
+    --muted: 60 6% 28%;
+    --muted-foreground: 60 30% 85%;
+
+    --accent: 60 6% 28%;
+    --accent-foreground: 60 30% 96%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 30% 96%;
+
+    --border: 60 6% 28%;
+    --input: 60 6% 28%;
+    --ring: 65 92% 76%;
+
+    --correct: 80 60% 60%;
+    --error: 0 100% 67%;
+  }
+
+  /* GitHub theme */
+  .theme-github {
+    --background: 0 0% 100%;
+    --foreground: 210 12% 16%;
+
+    --card: 0 0% 98%;
+    --card-foreground: 210 12% 16%;
+
+    --popover: 0 0% 98%;
+    --popover-foreground: 210 12% 16%;
+
+    --primary: 212 92% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 210 12% 16%;
+
+    --muted: 220 14% 96%;
+    --muted-foreground: 210 12% 45%;
+
+    --accent: 220 14% 96%;
+    --accent-foreground: 210 12% 16%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 14% 90%;
+    --input: 220 14% 90%;
+    --ring: 212 92% 45%;
+
+    --correct: 137 55% 36%;
+    --error: 0 72% 51%;
+  }
+
   * {
     @apply border-border;
   }
@@ -150,6 +323,22 @@
   .font-space-mono {
     font-family: 'Space Mono', monospace;
   }
+
+  .font-ubuntu-mono {
+    font-family: 'Ubuntu Mono', monospace;
+  }
+
+  .font-fira-code {
+    font-family: 'Fira Code', monospace;
+  }
+
+  .font-source-code-pro {
+    font-family: 'Source Code Pro', monospace;
+  }
+
+  .font-comic-sans {
+    font-family: 'Comic Sans MS', cursive;
+  }
 }
 
 @layer components {
@@ -162,23 +351,40 @@
   }
 
   .word {
-    @apply px-0.5 transition-colors duration-200 ease-in-out;
+    @apply px-0.5 transition-colors duration-150 ease-in-out;
   }
 
   .caret {
-    @apply absolute w-0.5 h-6 bg-primary rounded-sm transition-all duration-200 ease-in-out animate-caret-blink;
+    @apply absolute w-0.5 h-7 bg-primary rounded-sm;
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  @keyframes typing-indicator {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.9; }
+  }
+
+  .animate-pulse-smooth {
+    animation: typing-indicator 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
   .char {
-    @apply mx-px transition-colors duration-150 ease-in-out relative inline-block;
+    @apply mx-0.5 transition-all duration-150 ease-in-out relative inline-block;
   }
 
   .char.correct {
-    @apply text-correct transition-colors duration-150 ease-in-out;
+    @apply text-correct transition-all duration-150 ease-in-out;
   }
 
   .char.incorrect {
-    @apply text-error bg-error/10 transition-colors duration-150 ease-in-out;
+    @apply text-error bg-error/5 transition-all duration-150 ease-in-out;
   }
 
   .char.current {
@@ -187,7 +393,7 @@
 
   .char.current::before {
     content: '';
-    @apply absolute bottom-0 left-0 w-full h-px bg-primary animate-pulse-smooth;
+    @apply absolute bottom-0 left-0 w-full h-px bg-primary/50 animate-pulse-smooth;
   }
 
   .key {
@@ -200,5 +406,10 @@
 
   .key-row {
     @apply flex space-x-1 my-1;
+  }
+
+  /* Add smooth transition for blur effect */
+  .blur-transition {
+    transition: filter 0.3s ease-in-out, background-color 0.3s ease-in-out;
   }
 }

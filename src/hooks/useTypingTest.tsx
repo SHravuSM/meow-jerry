@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback, useRef } from "react";
 import { generateRandomWords, TestOptions, defaultTestOptions } from "../utils/wordLists";
 
@@ -48,12 +47,23 @@ export const useTypingTest = (): TypingTestHook => {
   const [activeKeys, setActiveKeys] = useState<Set<string>>(new Set());
   
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const batchSize = 50; // Number of words to generate at a time
+  const initialParagraphSize = 20; // Initial paragraph size (about 3 lines)
+  const paragraphSize = 50; // Size for subsequent paragraphs
 
-  // Generate words for the test
+  // Generate initial words for the test
   useEffect(() => {
-    const wordCount = options.mode === "time" ? 200 : options.wordCount;
-    setWords(generateRandomWords(wordCount));
+    // Generate initial smaller paragraph of words
+    setWords(generateRandomWords(initialParagraphSize));
   }, [options]);
+
+  // Generate more words as needed
+  useEffect(() => {
+    // If we're approaching the end of our current paragraph, generate a new one
+    if (currentWordIndex >= words.length - 10 && !finished) {
+      setWords(prevWords => [...prevWords, ...generateRandomWords(paragraphSize)]);
+    }
+  }, [currentWordIndex, words.length, finished]);
 
   // Timer logic
   useEffect(() => {
@@ -145,8 +155,8 @@ export const useTypingTest = (): TypingTestHook => {
 
   // Restart the test
   const restartTest = useCallback(() => {
-    const wordCount = options.mode === "time" ? 200 : options.wordCount;
-    setWords(generateRandomWords(wordCount));
+    // Generate initial smaller paragraph of words
+    setWords(generateRandomWords(initialParagraphSize));
     setCurrentWordIndex(0);
     setCurrentCharIndex(0);
     setCorrectChars(0);
@@ -161,7 +171,7 @@ export const useTypingTest = (): TypingTestHook => {
     setErrors([]);
     setActiveKeys(new Set());
     if (timerRef.current) clearInterval(timerRef.current);
-  }, [options]);
+  }, []);
 
   // Update options
   const setOptions = useCallback((newOptions: Partial<TestOptions>) => {

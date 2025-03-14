@@ -1,5 +1,17 @@
-// Common English words for typing tests
-export const commonWords = [
+export interface TestOptions {
+  mode: "time" | "words";
+  duration: number;
+  wordCount: number;
+}
+
+export const defaultTestOptions: TestOptions = {
+  mode: "time",
+  duration: 60,
+  wordCount: 50,
+};
+
+// Common words for typing practice
+const commonWords = [
   "the",
   "be",
   "to",
@@ -320,24 +332,6 @@ export const commonWords = [
   "forest",
   "jungle",
 ];
-
-// Different test options
-export type TestDuration = 15 | 30 | 60 | 120;
-export type TestMode = "time" | "words";
-export type TestWordCount = 10 | 25 | 50 | 100;
-
-// Options for the typing test
-export interface TestOptions {
-  mode: TestMode;
-  duration: TestDuration;
-  wordCount: TestWordCount;
-}
-
-export const defaultTestOptions: TestOptions = {
-  mode: "time",
-  duration: 60,
-  wordCount: 50,
-};
 
 export function generateRandomWords(count: number): string[] {
   const words: string[] = [];
