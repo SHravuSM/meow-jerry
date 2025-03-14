@@ -43,6 +43,18 @@ const TypingTest = () => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const cursorRef = useRef<HTMLSpanElement>(null);
   const charRefs = useRef<{ [key: string]: HTMLSpanElement | null }>({});
+  const [showQR, setShowQR] = useState(false);
+  const [qrCodeSrc, setQrCodeSrc] = useState("");
+
+  // Function to show QR code based on donation type
+  const showQRCode = (type: "cat" | "jerry") => {
+    if (type === "cat") {
+      setQrCodeSrc("../assets/image.png"); // Replace with your actual QR code image path
+    } else if (type === "jerry") {
+      setQrCodeSrc("/path-to-jerry-qr-code.png"); // Replace with your actual QR code image path
+    }
+    setShowQR(true);
+  };
 
   // Focus container on mount and when test restarts
   useEffect(() => {
@@ -264,7 +276,7 @@ const TypingTest = () => {
               time={options.mode === "time" ? stats.secondsElapsed : undefined}
               maxTime={options.mode === "time" ? options.duration : undefined}
               showRestart={finished}
-              Result = {showResults}
+              Result={showResults}
               onRestart={handleRestart}
               className="animate-slide-down transition-all duration-500"
             />
@@ -308,7 +320,7 @@ const TypingTest = () => {
                     <span className="text-foreground/80">-Jerry</span>
                   </h2>
                   <p className="text-xl typewriter-text animation-delay-500">
-                    Start typing to begin your test.
+                    Catch the Jerry 😼..
                   </p>
                 </div>
               </div>
@@ -426,7 +438,7 @@ const TypingTest = () => {
           <span className="text-base font-medium">©2025 Meow-Jerry |</span>
           <div className="flex items-center gap-6">
             <a
-              href="https://github.com/yourusername"
+              href="https://github.com/SHravuSM"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-primary transition-colors flex items-center gap-1"
@@ -447,7 +459,40 @@ const TypingTest = () => {
               </svg>
               <span className="hidden sm:inline">GitHub</span>
             </a>
-            <a
+            {/* QR Code Modal */}
+            {showQR && (
+              <div
+                className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+                onClick={() => setShowQR(false)}
+              >
+                <div
+                  className="bg-background p-6 rounded-lg shadow-lg relative"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button
+                    className="absolute top-2 right-2 text-primary hover:text-primary/80"
+                    onClick={() => setShowQR(false)}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                  <img src="src\assets\image.png" alt="QR Code" className="w-52 h-64" />
+                </div>
+              </div>
+            )}
+            {/* <a
               href="https://twitter.com/yourusername"
               target="_blank"
               rel="noopener noreferrer"
@@ -468,11 +513,28 @@ const TypingTest = () => {
                 <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
               </svg>
               <span className="hidden sm:inline">Twitter</span>
-            </a>
+            </a> */}
             <a
-              href="mailto:contact@example.com"
+              href="mailto:shravankumarmuchchandi@gmail.com"
               className="hover:text-primary transition-colors flex items-center gap-1"
               title="Contact"
+              onClick={() => {
+                navigator.clipboard.writeText(
+                  "shravankumarmuchchandi@gmail.com"
+                );
+                const alertBox = document.createElement("div");
+                alertBox.innerText =
+                  "Email copied to clipboard! - shravankumarmuchchandi@gmail.com";
+                alertBox.className =
+                  "fixed bottom-[220px] pb-2 left-1/2 transform -translate-x-1/2 bg-secondary color-primary text-white px-4 py-2 rounded shadow-lg transition-opacity duration-300";
+                document.body.appendChild(alertBox);
+                setTimeout(() => {
+                  alertBox.style.opacity = "0";
+                  setTimeout(() => {
+                    document.body.removeChild(alertBox);
+                  }, 300);
+                }, 2000);
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -490,10 +552,57 @@ const TypingTest = () => {
               </svg>
               <span className="hidden sm:inline">Contact</span>
             </a>
+            <div className="flex items-center gap-4">
+              {/* Feed the Cat (Big Donation) */}
+              <button
+                onClick={() => showQRCode("cat")}
+                className="hover:text-primary transition-colors flex items-center gap-1"
+                title="Feed the Cat (Big Donation)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M20 19a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2Z"></path>
+                  <circle cx="12" cy="12" r="4"></circle>
+                </svg>
+                Feed the Cat
+              </button>
+
+              {/* Feed the Jerry (Small Donation) */}
+              <button
+                onClick={() => showQRCode("jerry")}
+                className="hover:text-primary transition-colors flex items-center gap-1"
+                title="Feed the Jerry (Small Donation)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                Feed the Jerry
+              </button>
+            </div>
           </div>
         </div>
+
         <div className="fixed bottom-4 right-4 z-10">
-          <span className="px-4 py-2 bg-background/80 backdrop-blur-md rounded-lg text-sm text-muted-foreground border border-border/20 shadow-md">
+          <span className="px-4 py-2 w-52 bg-background/80 backdrop-blur-md rounded-lg text-sm text-muted-foreground border border-border/20 shadow-md">
             {finished ? (
               <>
                 Press{" "}
